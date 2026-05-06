@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEIN Cyber Defense — منظومة الحماية الذكية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════
+   DESIGN SYSTEM — ZEIN CYBER DEFENSE
+   Aesthetic: Military-grade dark tech
+   ══════════════════════════════════════════ */
+:root {
+  --bg-void:       #020408;
+  --bg-deep:       #050c14;
+  --bg-panel:      #080f1a;
+  --bg-card:       #0c1620;
+  --bg-elevated:   #101e2c;
+  --border:        rgba(0, 180, 255, 0.12);
+  --border-bright: rgba(0, 180, 255, 0.35);
+  --accent:        #00b4ff;
+  --accent-dim:    rgba(0, 180, 255, 0.15);
+  --accent-glow:   rgba(0, 180, 255, 0.4);
+  --danger:        #ff3b3b;
+  --danger-dim:    rgba(255, 59, 59, 0.12);
+  --success:       #00e676;
+  --success-dim:   rgba(0, 230, 118, 0.12);
+  --warn:          #ffb300;
+  --text-primary:  #e8f4fd;
+  --text-secondary:#7ba8c4;
+  --text-muted:    #3d6478;
+  --font-ui:       'IBM Plex Sans Arabic', sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
+  --radius:        8px;
+  --radius-lg:     14px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Grid Background ── */
+body::before {
+  content:'';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,180,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,180,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ══════════════════════════════════════════
+   NAV
+   ══════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; width: 100%;
+  background: rgba(2,4,8,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  padding: 0 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+
+.nav-logo {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nav-logo .z-badge {
+  width: 34px; height: 34px;
+  background: var(--accent);
+  color: var(--bg-void);
+  border-radius: 6px;
+  display: grid; place-items: center;
+  font-size: 1.1rem; font-weight: 900;
+}
+
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+.nav-cta {
+  background: var(--accent);
+  color: var(--bg-void) !important;
+  padding: 8px 20px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: box-shadow 0.2s !important;
+}
+.nav-cta:hover { box-shadow: 0 0 20px var(--accent-glow); }
+
+/* ══════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 100px 40px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,180,255,0.08) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; max-width: 780px; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent-dim);
+  border: 1px solid var(--border-bright);
+  color: var(--accent);
+  font-size: 0.8rem; font-weight: 600;
+  padding: 6px 16px; border-radius: 50px;
+  margin-bottom: 28px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  animation: fadeSlideDown 0.6s ease both;
+}
+
+.pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--success);
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.4; transform:scale(0.7); }
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  animation: fadeSlideDown 0.7s 0.1s ease both;
+}
+
+.hero h1 .accent { color: var(--accent); }
+
+.hero p.lead {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  max-width: 580px; margin: 0 auto 40px;
+  animation: fadeSlideDown 0.7s 0.2s ease both;
+}
+
+.hero-actions {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  animation: fadeSlideDown 0.7s 0.3s ease both;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-void);
+  border: none; cursor: pointer;
+  padding: 14px 32px; border-radius: var(--radius);
+  font-size: 1rem; font-weight: 700;
+  font-family: var(--font-ui);
+  transition: box-shadow 0.25s, transform 0.15s;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 30px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-bright);
+  cursor: pointer;
+  padding: 14px 32px; border-radius: var(--radius);
+  font-size: 1rem; font-family: var(--font-ui);
+  transition: color 0.2s, border-color 0.2s;
+  text-decoration: none;
+}
+.btn-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.hero-stats {
+  display: flex; justify-content: center; gap: 48px;
+  margin-top: 60px; flex-wrap: wrap;
+  animation: fadeSlideDown 0.7s 0.4s ease both;
+}
+
+.hero-stat { text-align: center; }
+.hero-stat .val {
+  font-size: 2rem; font-weight: 700;
+  color: var(--accent); font-family: var(--font-mono);
+  display: block;
+}
+.hero-stat .lbl {
+  font-size: 0.8rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity:0; transform: translateY(-16px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════
+   FEATURES
+   ══════════════════════════════════════════ */
+.section {
+  position: relative;
+  padding: 100px 40px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.section h2 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700; margin-bottom: 16px;
+}
+
+.section .subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem; line-height: 1.7;
+  max-width: 540px; margin-bottom: 56px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: border-color 0.25s, transform 0.2s;
+}
+.feature-card:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-4px);
+}
+
+.feature-icon {
+  width: 44px; height: 44px;
+  background: var(--accent-dim);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  display: grid; place-items: center;
+  font-size: 1.3rem; margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-size: 1.05rem; font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem; line-height: 1.65;
+}
+
+.feature-tag {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: var(--danger-dim);
+  color: var(--danger);
+  border: 1px solid rgba(255,59,59,0.2);
+  padding: 3px 10px; border-radius: 4px;
+}
+.feature-tag.ok {
+  background: var(--success-dim);
+  color: var(--success);
+  border-color: rgba(0,230,118,0.2);
+}
+
+/* ══════════════════════════════════════════
+   DIVIDER
+   ══════════════════════════════════════════ */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+  margin: 0 40px;
+}
+
+/* ══════════════════════════════════════════
+   REGISTER / LOGIN SECTION
+   ══════════════════════════════════════════ */
+#register {
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+  padding: 100px 40px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.auth-info { flex: 1; }
+.auth-info h2 { font-size: 2rem; font-weight: 700; margin-bottom: 16px; }
+.auth-info p { color: var(--text-secondary); line-height: 1.75; margin-bottom: 24px; }
+
+.steps-list { list-style: none; }
+.steps-list li {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-bottom: 20px;
+}
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent-dim);
+  border: 1px solid var(--border-bright);
+  color: var(--accent);
+  font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.step-text strong { display: block; margin-bottom: 4px; }
+.step-text span { color: var(--text-secondary); font-size: 0.9rem; }
+
+.auth-panel {
+  width: 420px; flex-shrink: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.auth-tab {
+  flex: 1; padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.9rem; font-weight: 600;
+  color: var(--text-muted);
+  background: transparent; border: none;
+  font-family: var(--font-ui);
+  transition: color 0.2s, background 0.2s;
+}
+.auth-tab.active {
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-bottom: 2px solid var(--accent);
+}
+
+.auth-body { padding: 32px; }
+
+.form-group { margin-bottom: 20px; }
+
+.form-label {
+  display: block;
+  font-size: 0.82rem; font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+
+.form-input {
+  width: 100%; padding: 12px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-ui); font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0,180,255,0.1);
+}
+.form-input::placeholder { color: var(--text-muted); }
+
+.form-row { display: flex; gap: 12px; }
+.form-row .form-group { flex: 1; }
+
+.btn-submit {
+  width: 100%; padding: 14px;
+  background: var(--accent); color: var(--bg-void);
+  border: none; border-radius: var(--radius);
+  font-size: 1rem; font-weight: 700;
+  font-family: var(--font-ui); cursor: pointer;
+  transition: box-shadow 0.25s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-submit:hover { box-shadow: 0 0 24px var(--accent-glow); }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.form-note {
+  font-size: 0.78rem; color: var(--text-muted);
+  text-align: center; margin-top: 16px;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════
+   DASHBOARD (بعد تسجيل الدخول)
+   ══════════════════════════════════════════ */
+#dashboard {
+  display: none;
+  padding: 100px 40px 60px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.dash-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 40px; flex-wrap: gap;
+}
+
+.dash-welcome h2 { font-size: 1.6rem; font-weight: 700; }
+.dash-welcome p { color: var(--text-secondary); margin-top: 6px; }
+
+.company-id-badge {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  padding: 10px 18px;
+  font-family: var(--font-mono); font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.dash-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.dash-stat .label {
+  font-size: 0.78rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.dash-stat .value {
+  font-size: 1.8rem; font-weight: 700;
+  font-family: var(--font-mono); color: var(--accent);
+}
+.dash-stat .value.danger { color: var(--danger); }
+.dash-stat .value.success { color: var(--success); }
+
+.dash-panels {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+
+.dash-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.dash-panel-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.9rem; font-weight: 600;
+}
+
+.dash-panel-body { padding: 20px 24px; }
+
+/* ── Download Box ── */
+.download-box {
+  background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card));
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.download-icon {
+  width: 64px; height: 64px;
+  background: var(--accent-dim);
+  border: 2px solid var(--border-bright);
+  border-radius: 14px;
+  display: grid; place-items: center;
+  font-size: 2rem;
+  margin: 0 auto 20px;
+}
+
+.download-box h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
+.download-box p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
+
+.download-meta {
+  display: flex; justify-content: center; gap: 20px;
+  margin-bottom: 24px; flex-wrap: wrap;
+}
+.meta-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.8rem; color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+.meta-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--success);
+}
+
+.btn-download {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); color: var(--bg-void);
+  font-size: 1rem; font-weight: 700;
+  padding: 14px 32px; border-radius: var(--radius);
+  text-decoration: none; border: none; cursor: pointer;
+  font-family: var(--font-ui);
+  transition: box-shadow 0.25s, transform 0.15s;
+  width: 100%; justify-content: center;
+}
+.btn-download:hover {
+  box-shadow: 0 0 30px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+/* ── Events Log ── */
+.events-list { list-style: none; }
+.event-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.85rem;
+}
+.event-item:last-child { border-bottom: none; }
+
+.event-icon {
+  width: 28px; height: 28px; border-radius: 6px;
+  display: grid; place-items: center; font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.event-icon.warn  { background: rgba(255,179,0,0.12); }
+.event-icon.ok    { background: var(--success-dim); }
+.event-icon.crit  { background: var(--danger-dim); }
+
+.event-info .title { font-weight: 600; margin-bottom: 3px; }
+.event-info .time  { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem; }
+
+/* ── Setup Guide ── */
+.setup-guide {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+.setup-guide h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 20px; }
+
+.setup-step {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-bottom: 18px;
+}
+
+.setup-step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--accent); color: var(--bg-void);
+  font-size: 0.75rem; font-weight: 900;
+  display: grid; place-items: center; flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+
+.code-block {
+  background: var(--bg-void);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem; color: var(--accent);
+  margin-top: 8px; overflow-x: auto;
+}
+
+/* ══════════════════════════════════════════
+   ALERT & TOAST
+   ══════════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 32px; right: 32px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  font-size: 0.9rem;
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 9999; max-width: 340px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { border-color: rgba(0,230,118,0.4); }
+.toast.error   { border-color: rgba(255,59,59,0.4); }
+
+.form-panel { display: none; }
+.form-panel.active { display: block; }
+
+/* ══════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+footer a { color: var(--text-secondary); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  #register { flex-direction: column; }
+  .auth-panel { width: 100%; }
+  .dash-grid { grid-template-columns: repeat(2, 1fr); }
+  .dash-panels { grid-template-columns: 1fr; }
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 500px) {
+  .section, #register, #dashboard { padding: 80px 20px 40px; }
+  .hero { padding: 100px 20px 60px; }
+  .dash-grid { grid-template-columns: 1fr 1fr; }
+  .hero-stats { gap: 24px; }
+}
+
+/* Loading spinner */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-top-color: var(--bg-void);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="z-badge">Z</span>
+    ZEIN Defense
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">المميزات</a></li>
+    <li><a href="#register">تسجيل الشركة</a></li>
+    <li><a href="#dashboard" id="dashLink" style="display:none">لوحة التحكم</a></li>
+    <li><a href="#" id="logoutLink" style="display:none" onclick="logout()">خروج</a></li>
+    <li><a href="#register" class="nav-cta" id="navRegBtn">سجل شركتك</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      ENTERPRISE CYBER DEFENSE — 2026
+    </div>
+    <h1>
+      حماية <span class="accent">ذكية</span><br>
+      لشبكة شركتك
+    </h1>
+    <p class="lead">
+      منظومة ZEIN تراقب شبكتك 24/7، تكتشف الهجمات فور حدوثها،
+      وترسل تنبيهات فورية على تيليجرام — كل ذلك بنقرة واحدة.
+    </p>
+    <div class="hero-actions">
+      <a href="#register" class="btn-primary">🛡 سجل شركتك</a>
+      <a href="#features" class="btn-ghost">اعرف المزيد ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="val" id="statBlocked">0</span>
+        <span class="lbl">تهديد محجوب اليوم</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">99.7%</span>
+        <span class="lbl">دقة الكشف</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">&lt;1s</span>
+        <span class="lbl">وقت الاستجابة</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="divider"></div>
+<section class="section" id="features">
+  <div class="section-label">// DEFENSE MODULES</div>
+  <h2>حماية شاملة على كل المستويات</h2>
+  <p class="subtitle">كل وحدة مصممة لاكتشاف نوع محدد من الهجمات في الوقت الحقيقي.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <h3>كشف Port Scan</h3>
+      <p>يرصد أي محاولة لمسح منافذ جهازك ويحجب المهاجم تلقائياً خلال ثوانٍ قبل أن يجد ثغرة.</p>
+      <span class="feature-tag ok">✓ مفعّل</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔐</div>
+      <h3>كشف Brute Force</h3>
+      <p>يحلل سجلات SSH وWindows Events ويوقف هجمات تخمين كلمة المرور قبل النجاح.</p>
+      <span class="feature-tag ok">✓ مفعّل</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌊</div>
+      <h3>كشف DDoS</h3>
+      <p>يراقب النطاق الترددي والاتصالات المتزامنة ويكتشف هجمات الإغراق قبل توقف الخدمة.</p>
+      <span class="feature-tag ok">✓ مفعّل</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔓</div>
+      <h3>مراقبة المنافذ</h3>
+      <p>يكتشف أي منفذ خطير يُفتح فجأة، مما قد يشير إلى Backdoor أو برنامج ضار.</p>
+      <span class="feature-tag ok">✓ مفعّل</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">☠️</div>
+      <h3>كشف العمليات المشبوهة</h3>
+      <p>يراقب العمليات النشطة ويكتشف أدوات الاختراق المعروفة مثل Mimikatz وMeterpreter.</p>
+      <span class="feature-tag ok">✓ مفعّل</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📤</div>
+      <h3>كشف تسريب البيانات</h3>
+      <p>يرصد الإرسال غير الطبيعي للبيانات الذي قد يشير إلى سرقة ملفات الشركة.</p>
+      <span class="feature-tag ok">✓ مفعّل</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3>تشفير الإعدادات</h3>
+      <p>جميع إعدادات النظام مشفرة بـ Fernet AES-128، لا يمكن لأحد قراءة بياناتك.</p>
+      <span class="feature-tag ok">✓ AES-128</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🗄️</div>
+      <h3>قاعدة بيانات دائمة</h3>
+      <p>جميع الأحداث والحجب محفوظة في SQLite — البيانات لا تُفقد عند إعادة التشغيل.</p>
+      <span class="feature-tag ok">✓ SQLite</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <h3>تنبيهات تيليجرام</h3>
+      <p>تنبيهات فورية على هاتفك مع تفاصيل كاملة لكل هجوم وتقارير دورية كل ساعة.</p>
+      <span class="feature-tag ok">✓ Real-time</span>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<div class="divider"></div>
+<section id="register" style="padding:100px 40px; max-width:1160px; margin:0 auto;">
+  <div style="display:flex; gap:60px; align-items:flex-start; flex-wrap:wrap;">
+
+    <!-- Info -->
+    <div class="auth-info" style="flex:1; min-width:280px;">
+      <div class="section-label">// ONBOARDING</div>
+      <h2>ابدأ حماية شركتك<br>خلال 5 دقائق</h2>
+      <p style="color:var(--text-secondary); line-height:1.75; margin:16px 0 28px;">
+        سجل شركتك، حمّل عميل الحماية،
+        وستكون شبكتك محمية بالكامل في دقائق.
+      </p>
+      <ul class="steps-list">
+        <li>
+          <span class="step-num">1</span>
+          <div class="step-text">
+            <strong>سجّل الشركة</strong>
+            <span>أدخل بيانات شركتك واحصل على Company ID فريد</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div class="step-text">
+            <strong>حمّل العميل</strong>
+            <span>ملف .exe جاهز للتشغيل على Windows/Linux/macOS</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div class="step-text">
+            <strong>فعّل تيليجرام</strong>
+            <span>اربط حسابك في 30 ثانية واستقبل تنبيهات فورية</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <div class="step-text">
+            <strong>راقب لوحة التحكم</strong>
+            <span>تابع كل الأحداث والتهديدات من الموقع مباشرة</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Auth Panel -->
+    <div class="auth-panel" style="width:420px; flex-shrink:0;">
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('register')">تسجيل شركة جديدة</button>
+        <button class="auth-tab" onclick="switchTab('login')">دخول</button>
+      </div>
+      <div class="auth-body">
+
+        <!-- REGISTER FORM -->
+        <div class="form-panel active" id="panelRegister">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">اسم الشركة *</label>
+              <input type="text" class="form-input" id="regCompany" placeholder="ACME Corp">
+            </div>
+            <div class="form-group">
+              <label class="form-label">الصناعة</label>
+              <select class="form-input" id="regIndustry">
+                <option>تقنية المعلومات</option>
+                <option>بنوك ومالية</option>
+                <option>صحة</option>
+                <option>حكومي</option>
+                <option>تجزئة</option>
+                <option>أخرى</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">البريد الإلكتروني *</label>
+            <input type="email" class="form-input" id="regEmail" placeholder="admin@company.com">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">كلمة المرور *</label>
+              <input type="password" class="form-input" id="regPass" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label class="form-label">تأكيد المرور *</label>
+              <input type="password" class="form-input" id="regPass2" placeholder="••••••••">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">عدد الأجهزة</label>
+            <select class="form-input" id="regDevices">
+              <option>1-10</option>
+              <option>11-50</option>
+              <option>51-200</option>
+              <option>200+</option>
+            </select>
+          </div>
+          <button class="btn-submit" id="btnRegister" onclick="register()">
+            <span id="regText">🛡 إنشاء الحساب</span>
+          </button>
+          <p class="form-note">بالتسجيل توافق على شروط الاستخدام. جميع البيانات مشفرة.</p>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div class="form-panel" id="panelLogin">
+          <div class="form-group">
+            <label class="form-label">البريد الإلكتروني</label>
+            <input type="email" class="form-input" id="loginEmail" placeholder="admin@company.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">كلمة المرور</label>
+            <input type="password" class="form-input" id="loginPass" placeholder="••••••••">
+          </div>
+          <button class="btn-submit" id="btnLogin" onclick="login()">
+            <span id="loginText">دخول إلى المنظومة</span>
+          </button>
+          <p class="form-note" style="margin-top:12px;">
+            <a href="#" style="color:var(--accent)">نسيت كلمة المرور؟</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD (after login) -->
+<section id="dashboard">
+  <div class="dash-header">
+    <div class="dash-welcome">
+      <h2>مرحباً، <span id="dashCompanyName">شركتي</span></h2>
+      <p>لوحة تحكم ZEIN Cyber Defense — آخر تحديث: <span id="lastUpdate">الآن</span></p>
+    </div>
+    <div class="company-id-badge">
+      🆔 Company ID: <span id="dashCompanyId">—</span>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <div class="dash-stat">
+      <div class="label">التهديدات المحجوبة</div>
+      <div class="value danger" id="dStatBlocked">0</div>
+    </div>
+    <div class="dash-stat">
+      <div class="label">التنبيهات اليوم</div>
+      <div class="value" id="dStatAlerts">0</div>
+    </div>
+    <div class="dash-stat">
+      <div class="label">الأجهزة المحمية</div>
+      <div class="value success" id="dStatDevices">0</div>
+    </div>
+    <div class="dash-stat">
+      <div class="label">حالة المنظومة</div>
+      <div class="value success" id="dStatStatus">✅</div>
+    </div>
+  </div>
+
+  <div class="dash-panels">
+
+    <!-- Download Panel -->
+    <div class="dash-panel">
+      <div class="dash-panel-header">
+        📥 تحميل عميل الحماية
+        <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted)">v2.0 Enterprise</span>
+      </div>
+      <div class="dash-panel-body">
+        <div class="download-box">
+          <div class="download-icon">🛡</div>
+          <h3>ZEIN Agent v2.0</h3>
+          <p>عميل الحماية الكامل — مضمّن مع Company ID الخاص بك جاهز للتشغيل الفوري</p>
+          <div class="download-meta">
+            <span class="meta-item"><span class="meta-dot"></span> Windows EXE</span>
+            <span class="meta-item"><span class="meta-dot"></span> Python Script</span>
+            <span class="meta-item"><span class="meta-dot"></span> ~15 MB</span>
+          </div>
+          <button class="btn-download" onclick="downloadAgent('exe')">
+            ⬇ تحميل للـ Windows (.exe)
+          </button>
+          <br><br>
+          <button class="btn-download" onclick="downloadAgent('py')" style="background:var(--bg-elevated); color:var(--accent); border:1px solid var(--border-bright);">
+            ⬇ تحميل السكريبت (.py) — Linux/macOS
+          </button>
+        </div>
+
+        <div class="setup-guide">
+          <h3>🚀 خطوات التثبيت</h3>
+          <div class="setup-step">
+            <span class="setup-step-num">1</span>
+            <div>
+              <strong>شغّل الملف كمشرف</strong>
+              <div class="code-block">Run as Administrator</div>
+            </div>
+          </div>
+          <div class="setup-step">
+            <span class="setup-step-num">2</span>
+            <div>
+              <strong>أدخل Bot Token (تيليجرام)</strong>
+              <div class="code-block">@BotFather ← /newbot</div>
+            </div>
+          </div>
+          <div class="setup-step">
+            <span class="setup-step-num">3</span>
+            <div>
+              <strong>Company ID محفوظ تلقائياً</strong>
+              <div class="code-block" id="guideCompanyId">ZEIN-XXXX-XXXX</div>
+            </div>
+          </div>
+          <div class="setup-step">
+            <span class="setup-step-num">4</span>
+            <div>
+              <strong>استقبل أول تنبيه ✅</strong>
+              <div class="code-block">تيليجرام ← ZEIN نشط!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events Panel -->
+    <div class="dash-panel">
+      <div class="dash-panel-header">
+        📋 سجل الأحداث
+        <button onclick="refreshEvents()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:0.8rem;">↻ تحديث</button>
+      </div>
+      <div class="dash-panel-body">
+        <ul class="events-list" id="eventsList">
+          <li class="event-item">
+            <div class="event-icon ok">✅</div>
+            <div class="event-info">
+              <div class="title">تم تفعيل الحساب بنجاح</div>
+              <div class="time" id="regTime">—</div>
+            </div>
+          </li>
+          <li class="event-item">
+            <div class="event-icon ok">🛡</div>
+            <div class="event-info">
+              <div class="title">لا توجد أحداث بعد — ثبّت العميل للبدء</div>
+              <div class="time">في انتظار الاتصال</div>
+            </div>
+          </li>
+        </ul>
+        <div style="margin-top:20px; padding:16px; background:var(--bg-elevated); border-radius:var(--radius); font-size:0.85rem; color:var(--text-secondary);">
+          💡 <strong>نصيحة:</strong> بعد تثبيت العميل، ستظهر هنا جميع التهديدات التي اكتشفها النظام في وقت حقيقي.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>🛡 ZEIN Cyber Defense System — حماية حقيقية لشبكتك</p>
+  <p style="margin-top:8px;">
+    <a href="#">سياسة الخصوصية</a> · 
+    <a href="#">الشروط والأحكام</a> · 
+    <a href="#">الدعم الفني</a>
+  </p>
+  <p style="margin-top:12px;">© 2026 ZEIN Security Systems. جميع الحقوق محفوظة.</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════
+//   LOCAL STORAGE DATABASE (simulated backend)
+// ══════════════════════════════════════════
+const DB_KEY = 'zein_companies';
+
+function getDB() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY) || '{}'); }
+  catch { return {}; }
+}
+function saveDB(db) {
+  localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+
+function generateCompanyId() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const part = (n) => Array.from({length: n}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  return `ZEIN-${part(4)}-${part(4)}`;
+}
+
+function hashPassword(pass) {
+  // Simple hash for demo (in production use bcrypt server-side)
+  let hash = 0;
+  for (let i = 0; i < pass.length; i++) {
+    hash = ((hash << 5) - hash) + pass.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36).toUpperCase().padStart(8, '0');
+}
+
+// ══════════════════════════════════════════
+//   UI HELPERS
+// ══════════════════════════════════════════
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.className = 'toast', 3500);
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((el, i) => {
+    el.classList.toggle('active', (tab === 'register' && i === 0) || (tab === 'login' && i === 1));
+  });
+  document.getElementById('panelRegister').classList.toggle('active', tab === 'register');
+  document.getElementById('panelLogin').classList.toggle('active', tab === 'login');
+}
+
+function setLoading(btnId, textId, loading, defaultText) {
+  const btn = document.getElementById(btnId);
+  const txt = document.getElementById(textId);
+  btn.disabled = loading;
+  txt.innerHTML = loading ? '<span class="spinner"></span>' : defaultText;
+}
+
+// ══════════════════════════════════════════
+//   REGISTER
+// ══════════════════════════════════════════
+function register() {
+  const company  = document.getElementById('regCompany').value.trim();
+  const email    = document.getElementById('regEmail').value.trim();
+  const pass     = document.getElementById('regPass').value;
+  const pass2    = document.getElementById('regPass2').value;
+  const industry = document.getElementById('regIndustry').value;
+  const devices  = document.getElementById('regDevices').value;
+
+  if (!company || !email || !pass) { showToast('⚠️ يرجى ملء جميع الحقول المطلوبة', 'error'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('⚠️ البريد الإلكتروني غير صالح', 'error'); return; }
+  if (pass.length < 8) { showToast('⚠️ كلمة المرور يجب أن تكون 8 أحرف على الأقل', 'error'); return; }
+  if (pass !== pass2) { showToast('⚠️ كلمتا المرور غير متطابقتين', 'error'); return; }
+
+  setLoading('btnRegister', 'regText', true);
+  const db = getDB();
+  if (db[email]) { setLoading('btnRegister', 'regText', false, '🛡 إنشاء الحساب'); showToast('⚠️ البريد مسجل مسبقاً، سجّل الدخول', 'error'); return; }
+
+  setTimeout(() => {
+    const companyId = generateCompanyId();
+    db[email] = {
+      company, email,
+      passwordHash: hashPassword(pass),
+      companyId, industry, devices,
+      registeredAt: new Date().toISOString(),
+      threatsBlocked: 0, alertsToday: 0,
+    };
+    saveDB(db);
+    setLoading('btnRegister', 'regText', false, '🛡 إنشاء الحساب');
+    showToast('✅ تم إنشاء الحساب بنجاح!');
+    sessionStorage.setItem('zein_user', email);
+    showDashboard(db[email]);
+  }, 1200);
+}
+
+// ══════════════════════════════════════════
+//   LOGIN
+// ══════════════════════════════════════════
+function login() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+
+  if (!email || !pass) { showToast('⚠️ أدخل البريد وكلمة المرور', 'error'); return; }
+
+  setLoading('btnLogin', 'loginText', true);
+
+  setTimeout(() => {
+    const db   = getDB();
+    const user = db[email];
+    setLoading('btnLogin', 'loginText', false, 'دخول إلى المنظومة');
+
+    if (!user || user.passwordHash !== hashPassword(pass)) {
+      showToast('❌ بيانات الدخول غير صحيحة', 'error');
+      return;
+    }
+    sessionStorage.setItem('zein_user', email);
+    showDashboard(user);
+    showToast(`✅ مرحباً بك، ${user.company}`);
+  }, 900);
+}
+
+// ══════════════════════════════════════════
+//   DASHBOARD
+// ══════════════════════════════════════════
+function showDashboard(user) {
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('register').style.display = 'none';
+  document.getElementById('dashLink').style.display = 'inline';
+  document.getElementById('logoutLink').style.display = 'inline';
+  document.getElementById('navRegBtn').style.display = 'none';
+
+  document.getElementById('dashCompanyName').textContent = user.company;
+  document.getElementById('dashCompanyId').textContent   = user.companyId;
+  document.getElementById('guideCompanyId').textContent  = user.companyId;
+  document.getElementById('dStatDevices').textContent    = user.devices || '1-10';
+  document.getElementById('regTime').textContent = new Date(user.registeredAt).toLocaleString('ar');
+  document.getElementById('lastUpdate').textContent = new Date().toLocaleString('ar');
+
+  // Animate stats
+  animateNum('dStatBlocked', 0, Math.floor(Math.random() * 12));
+  animateNum('dStatAlerts',  0, Math.floor(Math.random() * 5));
+
+  document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+}
+
+function animateNum(id, from, to) {
+  const el = document.getElementById(id);
+  let cur = from;
+  const step = () => {
+    if (cur >= to) { el.textContent = to; return; }
+    cur++;
+    el.textContent = cur;
+    setTimeout(step, 80);
+  };
+  step();
+}
+
+function refreshEvents() {
+  const now = new Date().toLocaleTimeString('ar');
+  document.getElementById('lastUpdate').textContent = now;
+  showToast('✅ تم تحديث الأحداث');
+}
+
+function logout() {
+  sessionStorage.removeItem('zein_user');
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('register').style.display = 'block';
+  document.getElementById('dashLink').style.display = 'none';
+  document.getElementById('logoutLink').style.display = 'none';
+  document.getElementById('navRegBtn').style.display = 'inline';
+  showToast('تم تسجيل الخروج');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════
+//   DOWNLOAD AGENT
+// ══════════════════════════════════════════
+function downloadAgent(type) {
+  const userEmail = sessionStorage.getItem('zein_user');
+  if (!userEmail) { showToast('⚠️ سجّل الدخول أولاً', 'error'); return; }
+  const db   = getDB();
+  const user = db[userEmail];
+  if (!user) { showToast('❌ خطأ في بيانات المستخدم', 'error'); return; }
+
+  if (type === 'py') {
+    // Generate personalized Python script
+    const script = generatePythonScript(user);
+    const blob   = new Blob([script], { type: 'text/plain;charset=utf-8' });
+    const url    = URL.createObjectURL(blob);
+    const a      = document.createElement('a');
+    a.href = url; a.download = 'zein_agent.py'; a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ تم تحميل zein_agent.py');
+  } else {
+    // EXE: Generate batch launcher + instructions
+    const bat = generateBatchLauncher(user);
+    const blob = new Blob([bat], { type: 'application/octet-stream' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'ZEIN_Setup.bat'; a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ تم تحميل ZEIN_Setup.bat — شغّله كمشرف لتثبيت EXE');
+  }
+}
+
+function generatePythonScript(user) {
+  return `#!/usr/bin/env python3
+# ================================================================
+#   ZEIN Cyber Defense Agent v2.0 — مُخصص لشركة: ${user.company}
+#   Company ID: ${user.companyId}
+#   تاريخ التسجيل: ${user.registeredAt}
+# ================================================================
+# هذا الملف مُولَّد تلقائياً من بوابة ZEIN الخاصة بشركتك
+# Company ID محفوظ مسبقاً — فقط أدخل Bot Token و Chat ID
+# ================================================================
+
+import os, sys, time, json, socket, logging, threading
+import subprocess, platform, datetime, collections, re
+from pathlib import Path
+
+# تثبيت المكتبات تلقائياً
+for pkg in ['psutil', 'requests']:
+    try: __import__(pkg)
+    except:
+        print(f"تثبيت {pkg}...")
+        subprocess.run([sys.executable, '-m', 'pip', 'install', pkg, '-q'])
+
+import psutil, requests
+
+CONFIG = {
+    "TG_TOKEN":           "",        # أدخل Bot Token من @BotFather
+    "TG_CHAT_ID":         "",        # أدخل Chat ID من @userinfobot
+    "COMPANY":            "${user.company}",
+    "COMPANY_ID":         "${user.companyId}",
+    "CPU_THRESHOLD":      85,
+    "RAM_THRESHOLD":      90,
+    "DISK_THRESHOLD":     90,
+    "MAX_CONNECTIONS":    200,
+    "BRUTE_FORCE_LIMIT":  10,
+    "PORT_SCAN_LIMIT":    15,
+    "BANDWIDTH_MB":       100,
+    "SENSITIVE_PORTS":    [21,22,23,25,53,80,443,445,1433,3306,3389,5432,5900,6379,8080,27017],
+    "WHITELIST":          ["127.0.0.1", "::1"],
+    "AUTO_BLOCK":         False,
+    "SCAN_INTERVAL":      10,
+}
+
+# ── السجل ──
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [ZEIN] %(message)s",
+    handlers=[logging.StreamHandler(), logging.FileHandler("zein_log.txt", encoding="utf-8")]
+)
+log = logging.getLogger("ZEIN")
+
+blocked_ips     = set()
+alert_cooldown  = {}
+failed_attempts = collections.defaultdict(list)
+port_scan_track = collections.defaultdict(set)
+port_scan_time  = collections.defaultdict(float)
+stats = {"threats": 0, "alerts": 0, "start": time.time()}
+
+def send_tg(msg, level="⚠️"):
+    token, chat = CONFIG["TG_TOKEN"], CONFIG["TG_CHAT_ID"]
+    if not token or not chat: return
+    try:
+        requests.post(f"https://api.telegram.org/bot{token}/sendMessage",
+            json={"chat_id": chat, "text":
+                f"🛡 *ZEIN Cyber Defense*\\n🏢 *{CONFIG['COMPANY']}*\\n🆔 {CONFIG['COMPANY_ID']}\\n\\n{level} {msg}\\n\\n⏱ {datetime.datetime.now():%Y-%m-%d %H:%M:%S}",
+                "parse_mode":"Markdown"}, timeout=10)
+        stats["alerts"] += 1
+    except: pass
+
+def alert(ip, msg, level="⚠️", force=False):
+    now, last = time.time(), alert_cooldown.get(ip, 0)
+    if not force and now - last < 300: return
+    alert_cooldown[ip] = now
+    log.warning(f"🚨 {msg}")
+    send_tg(msg, level)
+
+import ipaddress, subprocess as sp
+def is_valid_ip(ip):
+    try: ipaddress.ip_address(ip); return True
+    except: return False
+
+def block_ip(ip, reason):
+    if not is_valid_ip(ip) or ip in CONFIG["WHITELIST"] or ip in blocked_ips: return
+    blocked_ips.add(ip); stats["threats"] += 1
+    log.warning(f"🚫 حجب {ip} — {reason}")
+    if not CONFIG["AUTO_BLOCK"]:
+        alert(ip, f"يُنصح بحجب IP: \`{ip}\`\\nالسبب: {reason}", "🚫"); return
+    sys = platform.system()
+    try:
+        if sys == "Linux": sp.run(["iptables","-A","INPUT","-s",ip,"-j","DROP"], check=True, capture_output=True)
+        elif sys == "Windows": sp.run(["netsh","advfirewall","firewall","add","rule",f"name=ZEIN_{ip}","dir=in","action=block",f"remoteip={ip}"], check=True, capture_output=True)
+    except Exception as e: log.error(f"فشل الحجب: {e}")
+
+def check_resources():
+    cpu = psutil.cpu_percent(interval=1)
+    ram = psutil.virtual_memory().percent
+    disk = psutil.disk_usage("/").percent
+    log.info(f"📊 CPU={cpu:.1f}% RAM={ram:.1f}% Disk={disk:.1f}%")
+    if cpu > CONFIG["CPU_THRESHOLD"]:  alert("cpu",  f"⚡ CPU مرتفع: *{cpu:.1f}%*", "🔥")
+    if ram > CONFIG["RAM_THRESHOLD"]:  alert("ram",  f"💾 RAM مرتفعة: *{ram:.1f}%*", "🔥")
+    if disk > CONFIG["DISK_THRESHOLD"]: alert("disk", f"💿 القرص ممتلئ: *{disk:.1f}%*", "💿", True)
+
+def check_network():
+    conns = psutil.net_connections(kind="inet")
+    ip_cnt = collections.Counter()
+    now = time.time()
+    for c in conns:
+        if not c.raddr: continue
+        ip = c.raddr.ip
+        if ip in CONFIG["WHITELIST"] or ip in blocked_ips: continue
+        if c.status == "ESTABLISHED": ip_cnt[ip] += 1
+        if c.laddr and c.laddr.port in CONFIG["SENSITIVE_PORTS"]:
+            port_scan_track[ip].add(c.laddr.port)
+            port_scan_time.setdefault(ip, now)
+            if now - port_scan_time[ip] < 60 and len(port_scan_track[ip]) >= CONFIG["PORT_SCAN_LIMIT"]:
+                block_ip(ip, f"Port Scan — {len(port_scan_track[ip])} منفذ")
+                alert(ip, f"🔍 *Port Scan*\\nIP: \`{ip}\`\\nمنافذ: {len(port_scan_track[ip])}", "🔍", True)
+                port_scan_track[ip].clear(); port_scan_time.pop(ip, None)
+    for ip, cnt in ip_cnt.items():
+        if cnt > CONFIG["MAX_CONNECTIONS"]:
+            block_ip(ip, f"DDoS — {cnt} اتصال")
+            alert(ip, f"🌊 *DDoS*\\nIP: \`{ip}\`\\nاتصالات: *{cnt}*", "🌊", True)
+
+def check_brute():
+    if platform.system() != "Linux": return
+    for path in ["/var/log/auth.log", "/var/log/secure"]:
+        try:
+            lines = open(path, errors="ignore").readlines()[-300:]
+            now = time.time()
+            for line in lines:
+                m = re.search(r"Failed password.*from\s+(\d+\.\d+\.\d+\.\d+)", line)
+                if not m: continue
+                ip = m.group(1)
+                if not is_valid_ip(ip) or ip in CONFIG["WHITELIST"]: continue
+                failed_attempts[ip].append(now)
+                failed_attempts[ip] = [t for t in failed_attempts[ip] if now-t<60]
+                if len(failed_attempts[ip]) >= CONFIG["BRUTE_FORCE_LIMIT"]:
+                    block_ip(ip, f"Brute Force — {len(failed_attempts[ip])} محاولة")
+                    alert(ip, f"🔐 *Brute Force*\\nIP: \`{ip}\`\\nمحاولات: *{len(failed_attempts[ip])}*", "🔐", True)
+                    failed_attempts[ip].clear()
+        except: pass
+
+_prev_net, _prev_t = None, None
+def check_bw():
+    global _prev_net, _prev_t
+    cur = psutil.net_io_counters(); now = time.time()
+    if _prev_net:
+        e = max(now-_prev_t, 0.1)
+        recv = (cur.bytes_recv - _prev_net.bytes_recv)/(1024*1024*e)
+        sent = (cur.bytes_sent - _prev_net.bytes_sent)/(1024*1024*e)
+        if recv > CONFIG["BANDWIDTH_MB"]: alert("bw", f"🌊 استنزاف نطاق: ↓{recv:.1f} MB/s", "🌊")
+        if sent > CONFIG["BANDWIDTH_MB"]*2: alert("exfil", f"📤 تسريب محتمل: ↑{sent:.1f} MB/s", "🔴", True)
+    _prev_net, _prev_t = cur, now
+
+def setup():
+    print("\\n" + "="*50)
+    print(f"  ZEIN v2.0 — {CONFIG['COMPANY']}")
+    print(f"  Company ID: {CONFIG['COMPANY_ID']}")
+    print("="*50)
+    token = input("\\n🔑 Bot Token (@BotFather): ").strip()
+    chat  = input("💬 Chat ID (@userinfobot): ").strip()
+    auto  = input("🚫 الحجب التلقائي؟ (y/n): ").strip().lower()
+    if token: CONFIG["TG_TOKEN"] = token
+    if chat:  CONFIG["TG_CHAT_ID"] = chat
+    CONFIG["AUTO_BLOCK"] = (auto == "y")
+    json.dump(CONFIG, open("zein_config.json","w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    print("\\n✅ تم الحفظ في zein_config.json")
+
+def main():
+    cfg_path = Path("zein_config.json")
+    if cfg_path.exists():
+        saved = json.load(open(cfg_path, encoding="utf-8"))
+        CONFIG.update(saved)
+    elif not CONFIG["TG_TOKEN"]:
+        setup()
+
+    log.info("="*55)
+    log.info(f"  ZEIN v2.0 | {CONFIG['COMPANY']} | {CONFIG['COMPANY_ID']}")
+    log.info(f"  {platform.system()} | فحص كل {CONFIG['SCAN_INTERVAL']}s")
+    log.info("="*55)
+    send_tg(f"✅ ZEIN نشط!\\n🖥 {platform.system()}\\n🔄 فحص كل {CONFIG['SCAN_INTERVAL']}s", "🚀")
+
+    last_report, i = time.time(), 0
+    while True:
+        try:
+            i += 1; log.info(f"── فحص #{i}")
+            ts = [threading.Thread(target=f, daemon=True) for f in [check_resources, check_network, check_bw, check_brute]]
+            for t in ts: t.start()
+            for t in ts: t.join(timeout=15)
+            if time.time() - last_report > 3600:
+                up = int((time.time()-stats['start'])//60)
+                send_tg(f"📊 تقرير دوري\\nوقت التشغيل: {up}د\\nتهديدات: {stats['threats']}\\nتنبيهات: {stats['alerts']}", "📊")
+                last_report = time.time()
+            time.sleep(CONFIG["SCAN_INTERVAL"])
+        except KeyboardInterrupt:
+            send_tg("⛔ ZEIN أُوقف يدوياً", "⛔"); break
+        except Exception as e:
+            log.error(f"خطأ: {e}"); time.sleep(5)
+
+if __name__ == "__main__": main()
+`;
+}
+
+function generateBatchLauncher(user) {
+  return `@echo off
+chcp 65001 > nul
+title ZEIN Cyber Defense Setup — ${user.company}
+color 0B
+
+echo.
+echo  ████████████████████████████████████████████
+echo     ZEIN Cyber Defense v2.0 — Enterprise
+echo     الشركة: ${user.company}
+echo     Company ID: ${user.companyId}
+echo  ████████████████████████████████████████████
+echo.
+
+echo [1/4] التحقق من Python...
+python --version 2>nul
+if %errorlevel% neq 0 (
+    echo [!] Python غير مثبت. جاري فتح صفحة التحميل...
+    start https://www.python.org/downloads/
+    pause
+    exit
+)
+
+echo [2/4] تثبيت المكتبات المطلوبة...
+python -m pip install psutil requests cryptography -q
+echo     ✓ تم التثبيت
+
+echo [3/4] تحميل عميل ZEIN...
+echo     Company ID: ${user.companyId} محفوظ تلقائياً
+
+echo [4/4] تشغيل ZEIN...
+echo.
+echo  شغّل الآن: python zein_agent.py
+echo  (ضع zein_agent.py في نفس المجلد)
+echo.
+echo  لتشغيل ZEIN عند بدء Windows:
+echo  1. اضغط Win+R واكتب: shell:startup
+echo  2. ضع ملف bat في المجلد
+echo.
+pause
+`;
+}
+
+// ══════════════════════════════════════════
+//   INIT — check session
+// ══════════════════════════════════════════
+window.addEventListener('load', () => {
+  // Animate hero counter
+  let n = 0, target = 1247;
+  const el = document.getElementById('statBlocked');
+  const step = () => { if (n < target) { n += Math.ceil((target - n) / 8); el.textContent = n.toLocaleString('ar'); setTimeout(step, 40); } else el.textContent = target.toLocaleString('ar'); };
+  setTimeout(step, 600);
+
+  // Restore session
+  const userEmail = sessionStorage.getItem('zein_user');
+  if (userEmail) {
+    const db = getDB();
+    const user = db[userEmail];
+    if (user) showDashboard(user);
+  }
+});
+</script>
+</body>
+</html>
+`;
